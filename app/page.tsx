@@ -68,10 +68,10 @@ export default function HomePage() {
           backgroundSize: 'cover'
         }}
       >
+        {/* Glassy Dark Filter Overlay */}
         <div className="absolute inset-0 bg-black/30 backdrop-blur-[3px] backdrop-brightness-75" />
 
         {/* --- FLOATING NEWS TICKER STRIP --- */}
-        {/* top-24 assumes your navbar pill is at top-6. Adjust top- value if needed */}
         <div className="absolute top-24 left-0 w-full bg-[#2b6cb0]/80 backdrop-blur-md py-2 overflow-hidden border-y border-[#ffd700]/30 shadow-2xl z-30">
           <div className="flex animate-marquee whitespace-nowrap gap-10">
             {newsItems.concat(newsItems).map((item, i) => (
@@ -82,11 +82,11 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* HERO GRID - Elements moved down further to clear the floating ticker */}
+        {/* HERO GRID */}
         <div className="max-w-7xl w-full mx-auto px-6 pt-40 pb-12 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
             
-            {/* QUICK LINKS */}
+            {/* QUICK LINKS - Fixed Yellow Border */}
             <div className="lg:col-span-3 bg-white/10 backdrop-blur-xl border border-white/20 border-l-[#ffd700] border-l-4 rounded-3xl p-6 shadow-2xl flex flex-col">
               <h3 className="text-white text-lg font-black mb-6 border-b border-white/10 pb-2 uppercase tracking-tighter text-center">Quick Links</h3>
               <ul className="space-y-3 flex-grow">
@@ -164,7 +164,6 @@ export default function HomePage() {
 
       {/* 3. RECENT EVENTS SECTION */}
       <div className="max-w-7xl mx-auto px-6 py-24 bg-white">
-        {/* ... Rest of your code remains the same ... */}
         <div className="text-center space-y-4 mb-16">
           <h1 className="text-5xl font-black tracking-tighter md:text-7xl uppercase text-[#001f3f]">
             Recent <span className="text-[#2b6cb0]">Events</span>
