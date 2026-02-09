@@ -4,8 +4,9 @@ import type { NextRequest } from 'next/server';
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // ONLY run this logic if the path explicitly starts with /admin
-  if (pathname.startsWith('/admin')) {
+  // STRICT CHECK: Only trigger if the path starts with /admin 
+  // AND it is not a Next.js internal data request (_rsc)
+  if (pathname.startsWith('/admin') && !request.nextUrl.searchParams.has('_rsc')) {
     const authHeader = request.headers.get('authorization');
 
     if (!authHeader) {
@@ -27,11 +28,19 @@ export function middleware(request: NextRequest) {
     }
   }
 
-  // For all other routes (like / or /gallery), just proceed normally
   return NextResponse.next();
 }
 
-// This config acts as a second layer of protection to keep middleware away from static files
 export const config = {
-  matcher: ['/((?!api|_next/static|_next/image|favicon.ico|homebackground.png|home-crsl).*)'],
+  matcher: [
+    /*
+     * Match all request paths except for the ones starting with:
+     * - api (API routes)
+     * - _next/static (static files)
+     * - _next/image (image optimization files)
+     * - favicon.ico (favicon file)
+     * - All images in public folder (png, jpg, jpeg, gif, svg)
+     */
+    '/((?!api|_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
+  ],
 };
