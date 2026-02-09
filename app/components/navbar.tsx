@@ -105,9 +105,10 @@ export default function Navbar() {
             </div>
           ))}
 
-          {/* Liquid Admin Button */}
+          {/* Liquid Admin Button - Prefetch DISABLED to stop the login popup on home boot */}
           <Link 
             href="/admin" 
+            prefetch={false} 
             className="group relative flex items-center gap-2 bg-blue-600/20 text-blue-400 border border-blue-500/30 px-6 py-2 rounded-full text-xs font-bold hover:bg-blue-600 hover:text-white transition-all active:scale-95 overflow-hidden"
           >
             <Lock className="w-3.5 h-3.5" />
