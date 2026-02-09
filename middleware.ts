@@ -4,9 +4,17 @@ import type { NextRequest } from 'next/server';
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // STRICT CHECK: Only trigger if the path starts with /admin 
-  // AND it is not a Next.js internal data request (_rsc)
-  if (pathname.startsWith('/admin') && !request.nextUrl.searchParams.has('_rsc')) {
+  // 1. Completely ignore internal Next.js fetches and static assets
+  if (
+    pathname.startsWith('/_next') || 
+    pathname.startsWith('/api') ||
+    pathname.includes('.') // Ignores files like .jpg, .png, etc.
+  ) {
+    return NextResponse.next();
+  }
+
+  // 2. ONLY trigger Basic Auth if the user is explicitly on /admin
+  if (pathname.startsWith('/admin')) {
     const authHeader = request.headers.get('authorization');
 
     if (!authHeader) {
@@ -31,16 +39,7 @@ export function middleware(request: NextRequest) {
   return NextResponse.next();
 }
 
+// Stricter matcher to keep middleware away from your homebackground.png and other assets
 export const config = {
-  matcher: [
-    /*
-     * Match all request paths except for the ones starting with:
-     * - api (API routes)
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     * - favicon.ico (favicon file)
-     * - All images in public folder (png, jpg, jpeg, gif, svg)
-     */
-    '/((?!api|_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
-  ],
+  matcher: ['/admin/:path*', '/((?!_next/static|_next/image|favicon.ico|homebackground.png|home-crsl).*)'],
 };
