@@ -3,9 +3,10 @@ import { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabase";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronDown, Megaphone, ArrowRight } from "lucide-react"; 
-import SchoolInfo from "./components/SchoolInfo"; 
+import { ChevronDown, Megaphone, ArrowRight } from "lucide-react";
+import SchoolInfo from "./components/SchoolInfo";
 import PatronMotto from "./components/PatronMotto";
+import Lenis from "lenis";
 
 export default function HomePage() {
   const [newsTicker, setNewsTicker] = useState("Official MySVS News Feed...");
@@ -27,20 +28,41 @@ export default function HomePage() {
   ];
   const [currentIndex, setCurrentIndex] = useState(0);
 
+  // ── LENIS SMOOTH SCROLL ──────────────────────────────────────
+  useEffect(() => {
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smoothWheel: true,
+    });
+
+    let rafId: number;
+    function raf(time: number) {
+      lenis.raf(time);
+      rafId = requestAnimationFrame(raf);
+    }
+    rafId = requestAnimationFrame(raf);
+
+    return () => {
+      cancelAnimationFrame(rafId);
+      lenis.destroy();
+    };
+  }, []);
+
   useEffect(() => {
     const loadContent = async () => {
       const { data } = await supabase.from("settings").select("*");
       if (data) {
-        const news = data.find(i => i.id === 'news_ticker');
-        const notice = data.find(i => i.id === 'notice_board');
+        const news = data.find(i => i.id === "news_ticker");
+        const notice = data.find(i => i.id === "notice_board");
         if (news) setNewsTicker(news.content);
         if (notice) setNoticeBoard(notice.content);
 
         setGalleries([
-          { id: 1, name: data.find(i => i.id === 'gallery_1_title')?.content || "Gallery 1", description: "View our latest event photos." },
-          { id: 2, name: data.find(i => i.id === 'gallery_2_title')?.content || "Gallery 2", description: "View our latest event photos." },
-          { id: 3, name: data.find(i => i.id === 'gallery_3_title')?.content || "Gallery 3", description: "View our latest event photos." },
-          { id: 4, name: data.find(i => i.id === 'gallery_4_title')?.content || "Gallery 4", description: "View our latest event photos." },
+          { id: 1, name: data.find(i => i.id === "gallery_1_title")?.content || "Gallery 1", description: "View our latest event photos." },
+          { id: 2, name: data.find(i => i.id === "gallery_2_title")?.content || "Gallery 2", description: "View our latest event photos." },
+          { id: 3, name: data.find(i => i.id === "gallery_3_title")?.content || "Gallery 3", description: "View our latest event photos." },
+          { id: 4, name: data.find(i => i.id === "gallery_4_title")?.content || "Gallery 4", description: "View our latest event photos." },
         ]);
       }
     };
@@ -59,23 +81,30 @@ export default function HomePage() {
 
   return (
     <main className="min-h-screen bg-white text-[#0f172a] overflow-x-hidden">
-      
-      {/* 2. HERO SECTION CONTAINER */}
-      <div 
+
+      {/* Google Fonts: Prata */}
+      <style>{`@import url('https://fonts.googleapis.com/css2?family=Prata&display=swap');`}</style>
+
+      {/* HERO SECTION CONTAINER */}
+      <div
         className="relative min-h-[700px] lg:min-h-[800px] flex flex-col items-center justify-center bg-no-repeat bg-center"
-        style={{ 
+        style={{
           backgroundImage: "url('/homebackground.png')",
-          backgroundSize: 'cover'
+          backgroundSize: "cover",
         }}
       >
         {/* Glassy Dark Filter Overlay */}
         <div className="absolute inset-0 bg-black/30 backdrop-blur-[3px] backdrop-brightness-75" />
 
-        {/* --- FLOATING NEWS TICKER STRIP --- */}
-        <div className="absolute top-24 left-0 w-full bg-[#2b6cb0]/80 backdrop-blur-md py-2 overflow-hidden border-y border-[#ffd700]/30 shadow-2xl z-30">
+        {/* FLOATING NEWS TICKER STRIP */}
+        <div className="absolute top-24 left-0 w-full bg-[#134E8E]/80 backdrop-blur-md py-2 overflow-hidden border-y border-[#ffd700]/30 shadow-2xl z-30">
           <div className="flex animate-marquee whitespace-nowrap gap-10">
             {newsItems.concat(newsItems).map((item, i) => (
-              <span key={i} className="text-sm font-bold flex items-center text-white">
+              <span
+                key={i}
+                className="text-base flex items-center text-white"
+                style={{ fontFamily: "'Prata', serif" }}
+              >
                 <Megaphone size={14} className="mr-2 text-[#ffd700]" /> {item}
               </span>
             ))}
@@ -85,8 +114,8 @@ export default function HomePage() {
         {/* HERO GRID */}
         <div className="max-w-7xl w-full mx-auto px-6 pt-40 pb-12 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
-            
-            {/* QUICK LINKS - Fixed Yellow Border */}
+
+            {/* QUICK LINKS */}
             <div className="lg:col-span-3 bg-white/10 backdrop-blur-xl border border-white/20 border-l-[#ffd700] border-l-4 rounded-3xl p-6 shadow-2xl flex flex-col">
               <h3 className="text-white text-lg font-black mb-6 border-b border-white/10 pb-2 uppercase tracking-tighter text-center">Quick Links</h3>
               <ul className="space-y-3 flex-grow">
@@ -97,7 +126,7 @@ export default function HomePage() {
                   { n: "Exam Schedules", h: "/timetable" },
                   { n: "Curriculum", h: "/curriculum" },
                   { n: "Time Table", h: "/timetable" },
-                  { n: "Management", h: "/management" }
+                  { n: "Management", h: "/management" },
                 ].map((link) => (
                   <li key={link.n}>
                     <Link href={link.h} className="block py-3 px-4 bg-white/10 hover:bg-[#ffd700] hover:text-[#001f3f] border border-white/10 text-white rounded-xl transition-all text-[11px] font-black uppercase tracking-widest text-center shadow-sm active:scale-95">
@@ -125,12 +154,12 @@ export default function HomePage() {
 
               <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2 z-20">
                 {localImages.map((_, i) => (
-                  <button 
-                    key={i} 
-                    onClick={() => setCurrentIndex(i)} 
+                  <button
+                    key={i}
+                    onClick={() => setCurrentIndex(i)}
                     className={`h-1.5 transition-all duration-300 rounded-full ${
                       i === currentIndex ? "w-8 bg-[#ffd700]" : "w-2 bg-white/40 shadow-sm"
-                    }`} 
+                    }`}
                   />
                 ))}
               </div>
@@ -148,21 +177,21 @@ export default function HomePage() {
 
           {/* SCROLL DOWN */}
           <div className="flex justify-center mt-8">
-              <motion.button 
-                whileHover={{ y: 5 }}
-                onClick={() => window.scrollTo({ top: 800, behavior: 'smooth' })}
-                className="flex flex-col items-center gap-2 group"
-              >
-                  <span className="text-[10px] font-black uppercase tracking-[0.4em] text-white/70 group-hover:text-[#ffd700] transition-colors">Scroll Down</span>
-                  <div className="p-1.5 rounded-full border border-white/20 bg-black/20 backdrop-blur-md group-hover:border-[#ffd700] transition-colors shadow-sm">
-                      <ChevronDown size={18} className="text-white group-hover:text-[#ffd700] animate-bounce" />
-                  </div>
-              </motion.button>
+            <motion.button
+              whileHover={{ y: 5 }}
+              onClick={() => window.scrollTo({ top: 800, behavior: "smooth" })}
+              className="flex flex-col items-center gap-2 group"
+            >
+              <span className="text-[10px] font-black uppercase tracking-[0.4em] text-white/70 group-hover:text-[#ffd700] transition-colors">Scroll Down</span>
+              <div className="p-1.5 rounded-full border border-white/20 bg-black/20 backdrop-blur-md group-hover:border-[#ffd700] transition-colors shadow-sm">
+                <ChevronDown size={18} className="text-white group-hover:text-[#ffd700] animate-bounce" />
+              </div>
+            </motion.button>
           </div>
         </div>
       </div>
 
-      {/* 3. RECENT EVENTS SECTION */}
+      {/* RECENT EVENTS SECTION */}
       <div className="max-w-7xl mx-auto px-6 py-24 bg-white">
         <div className="text-center space-y-4 mb-16">
           <h1 className="text-5xl font-black tracking-tighter md:text-7xl uppercase text-[#001f3f]">
@@ -170,11 +199,11 @@ export default function HomePage() {
           </h1>
           <div className="h-1.5 w-24 bg-[#ffd700] mx-auto rounded-full" />
         </div>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
           {galleries.map((gallery) => (
-            <Link 
-              key={gallery.id} 
+            <Link
+              key={gallery.id}
               href={`/gallery/${gallery.id}`}
               className="group p-10 border border-[#e2e8f0] rounded-[2.5rem] bg-slate-50/50 hover:bg-[#ebf4ff] hover:border-[#2b6cb0]/30 transition-all text-left relative overflow-hidden shadow-sm hover:shadow-2xl"
             >

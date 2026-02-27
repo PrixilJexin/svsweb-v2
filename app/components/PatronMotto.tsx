@@ -89,7 +89,6 @@ export default function PatronMotto() {
 
         {/* Central Logo Background Effect */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-2xl opacity-10 pointer-events-none blur-sm">
-           <img src="/images/logo-motto.jpeg" alt="" className="w-full" />
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative z-10">

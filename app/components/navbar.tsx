@@ -50,10 +50,9 @@ export default function Navbar() {
   ];
 
   return (
-    // Floating Container
-    <div className="fixed top-6 left-0 right-0 z-50 flex justify-center px-4 pointer-events-none">
-      <nav 
-        className="pointer-events-auto bg-white/10 backdrop-blur-xl border border-white/20 px-8 py-3 rounded-full shadow-[0_8px_32px_0_rgba(0,0,0,0.37)] flex items-center gap-8 transition-all duration-500 hover:bg-white/15"
+    <div className="fixed top-4 left-0 right-0 z-50 flex justify-center px-4 pointer-events-none">
+      <nav
+        className="pointer-events-auto bg-black/60 backdrop-blur-2xl border border-white/10 px-8 py-3.5 rounded-full shadow-[0_8px_40px_0_rgba(0,0,0,0.6)] flex items-center gap-8 transition-all duration-500 hover:bg-black/70"
         style={{ fontFamily: "'Lora', serif" }}
       >
         {/* Logo */}
@@ -64,13 +63,13 @@ export default function Navbar() {
         {/* Navigation Items */}
         <div className="hidden md:flex items-center gap-6">
           {menuItems.map((item) => (
-            <div 
-              key={item.label} 
+            <div
+              key={item.label}
               className="relative"
               onMouseEnter={() => setActiveDropdown(item.label)}
               onMouseLeave={() => setActiveDropdown(null)}
             >
-              <button className="flex items-center gap-1.5 text-sm font-medium text-white/80 hover:text-white py-2 transition-all">
+              <button className="flex items-center gap-1.5 text-[15px] font-semibold text-white/90 hover:text-white py-2 transition-all">
                 {item.label}
                 <motion.div
                   animate={{ rotate: activeDropdown === item.label ? 180 : 0 }}
@@ -80,21 +79,24 @@ export default function Navbar() {
                 </motion.div>
               </button>
 
-              {/* Fancy Dropdown Animation */}
+              {/* Invisible bridge to prevent gap-triggered close */}
+              <div className="absolute left-0 right-0 h-3 bottom-0 translate-y-full" />
+
+              {/* Dropdown */}
               <AnimatePresence>
                 {activeDropdown === item.label && (
                   <motion.div
-                    initial={{ opacity: 0, y: 15, scale: 0.95, filter: "blur(10px)" }}
+                    initial={{ opacity: 0, y: 8, scale: 0.95, filter: "blur(8px)" }}
                     animate={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
-                    exit={{ opacity: 0, y: 10, scale: 0.95, filter: "blur(10px)" }}
+                    exit={{ opacity: 0, y: 6, scale: 0.95, filter: "blur(8px)" }}
                     transition={{ type: "spring", stiffness: 200, damping: 20 }}
-                    className="absolute left-1/2 -translate-x-1/2 mt-4 w-56 bg-black/60 backdrop-blur-2xl border border-white/10 rounded-[2rem] shadow-2xl p-2 overflow-hidden"
+                    className="absolute left-1/2 -translate-x-1/2 mt-2 w-56 bg-black/75 backdrop-blur-2xl border border-white/10 rounded-[2rem] shadow-2xl p-2 overflow-hidden"
                   >
                     {item.links.map((link) => (
                       <Link
                         key={link.name}
                         href={link.href}
-                        className="block px-5 py-3 text-sm text-white/60 hover:text-white hover:bg-white/10 rounded-full transition-all duration-300"
+                        className="block px-5 py-3 text-[13px] font-medium text-white/70 hover:text-white hover:bg-white/10 rounded-full transition-all duration-300"
                       >
                         {link.name}
                       </Link>
@@ -105,11 +107,11 @@ export default function Navbar() {
             </div>
           ))}
 
-          {/* Liquid Admin Button - Prefetch DISABLED to stop the login popup on home boot */}
-          <Link 
-            href="/admin" 
-            prefetch={false} 
-            className="group relative flex items-center gap-2 bg-blue-600/20 text-blue-400 border border-blue-500/30 px-6 py-2 rounded-full text-xs font-bold hover:bg-blue-600 hover:text-white transition-all active:scale-95 overflow-hidden"
+          {/* Admin Button */}
+          <Link
+            href="/admin"
+            prefetch={false}
+            className="group relative flex items-center gap-2 bg-blue-600/20 text-blue-400 border border-blue-500/30 px-6 py-2 rounded-full text-sm font-bold hover:bg-blue-600 hover:text-white transition-all active:scale-95 overflow-hidden"
           >
             <Lock className="w-3.5 h-3.5" />
             Admin Login
