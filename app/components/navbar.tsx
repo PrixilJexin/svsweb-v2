@@ -43,8 +43,8 @@ export default function Navbar() {
     {
       label: "Gallery",
       links: [
-        { name: "2024-2025", href: "/gallery/3" },
-        { name: "2025-2026", href: "/gallery/4" },
+        { name: "2024-2025", href: "/gallery2023-24" },
+        { name: "2025-2026", href: "/gallery2024-25" },
       ],
     },
   ];

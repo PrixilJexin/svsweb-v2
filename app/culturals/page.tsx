@@ -41,13 +41,13 @@ export default function CulturalsPage() {
            {/* Replace with your Swiper/Slick slider logic */}
            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 h-[400px] md:h-[550px]">
               <div className="bg-gray-900 rounded-3xl overflow-hidden border border-white/5">
-                <img src="/images/Culturals/IMG_6891.JPG" alt="Dance" className="w-full h-full object-cover opacity-80 hover:opacity-100 transition-opacity cursor-pointer" />
+                <img src="/culturals/IMG_6891.JPG" alt="Dance" className="w-full h-full object-cover opacity-80 hover:opacity-100 transition-opacity cursor-pointer" />
               </div>
               <div className="bg-gray-900 rounded-3xl overflow-hidden border border-white/5">
-                <img src="/images/Culturals/IMG_6907.JPG" alt="Performance" className="w-full h-full object-cover opacity-80 hover:opacity-100 transition-opacity cursor-pointer" />
+                <img src="/culturals/IMG_6907.JPG" alt="Performance" className="w-full h-full object-cover opacity-80 hover:opacity-100 transition-opacity cursor-pointer" />
               </div>
               <div className="bg-gray-900 rounded-3xl overflow-hidden border border-white/5">
-                <img src="/images/Culturals/IMG_6964.JPG" alt="Arts" className="w-full h-full object-cover opacity-80 hover:opacity-100 transition-opacity cursor-pointer" />
+                <img src="/culturals/IMG_6964.JPG" alt="Arts" className="w-full h-full object-cover opacity-80 hover:opacity-100 transition-opacity cursor-pointer" />
               </div>
            </div>
         </div>

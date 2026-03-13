@@ -71,7 +71,7 @@ export default function SportsPage() {
             </div>
           </div>
           <div className="w-full md:w-1/2 h-80 bg-slate-100 rounded-[2.5rem] overflow-hidden shadow-2xl border-4 border-white">
-             <img src="/images/sports/fitness-drill.jpg" alt="Fitness" className="w-full h-full object-cover" />
+             <img src="/sports/ball-net-basketball-game-arena.webp" alt="Fitness" className="w-full h-full object-cover" />
           </div>
         </div>
 
@@ -89,7 +89,7 @@ export default function SportsPage() {
             </ul>
           </div>
           <div className="w-full md:w-1/2 h-80 bg-slate-100 rounded-[2.5rem] overflow-hidden shadow-2xl border-4 border-white">
-             <img src="/images/sports/annual-meet.jpg" alt="Sports Meet" className="w-full h-full object-cover" />
+             <img src="/sports/image.png" alt="Sports Meet" className="w-full h-full object-cover" />
           </div>
         </div>
 

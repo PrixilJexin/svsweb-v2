@@ -28,7 +28,7 @@ export default function PatronHeritage() {
           <div className="relative group">
             <div className="absolute -inset-4 bg-[#ffd700]/20 rounded-2xl blur-xl group-hover:bg-[#ffd700]/30 transition duration-500" />
             <img 
-              src="/images/st-vincent-portrait.jpg" // Placeholder for St. Vincent Portrait
+              src="/images/Vincent_de_Paul.png" // Placeholder for St. Vincent Portrait
               alt="St. Vincent de Paul"
               className="relative rounded-2xl shadow-2xl border border-slate-200"
             />
